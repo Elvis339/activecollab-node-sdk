@@ -1,0 +1,25 @@
+{
+  "name": "activecollab_node_sdk",
+  "version": "1.0.0",
+  "description": "ActiveCollab node api sdk. ",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest",
+    "tsc:w": "tsc -w --outDir build",
+    "build": "tsc --outDir build",
+    "dev": "node build/index.js"
+  },
+  "author": "Elvis Sabanovic",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^25.1.2",
+    "@types/node": "^13.7.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
