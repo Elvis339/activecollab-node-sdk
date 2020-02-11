@@ -12,7 +12,8 @@ Get help: https://stackoverflow.com/questions/tagged/activecollab
 | npm run dev   | Run compiled app
 
 ### How it works?
-Code is written in asynchronous manner. Which means it has to be called inside of a async function.  
+Code is written in asynchronous manner. Which means it has to be called inside of a async function.
+**issueToken method has to be called on initialization of the client, so you can make requests**  
 **Before every request (_get, _post, _put, _delete) await has to be called.**
 
 ### Connect Active Collab Cloud Accounts
@@ -28,7 +29,7 @@ const middleware = async () => {
          * @param Account_ID @type number
          */
         const client = new Client('your@email.com', 'password', 'appName', 'organization-name', 'https://app.activecollab.com', 123456)
-        await client.issueToken() <-- **ISSUE TOKEN SO YOU CAN MAKE REQUESTS**
+        await client.issueToken()
         const data = await client._get('projects/ID-OF-PROJECT')
         console.log(data)
     } catch (error) {
@@ -49,7 +50,7 @@ const middleware = async () => {
          * @param URL @type String
          */
         const client = new Client('your@email.com', 'password', 'appName', 'organization-name', 'http://localhost:8080')
-        await client.issueToken() <-- **ISSUE TOKEN SO YOU CAN MAKE REQUESTS**
+        await client.issueToken()
         const data = await client._get('projects/ID-OF-PROJECT')
         console.log(data)
     } catch (error) {
@@ -70,7 +71,7 @@ const middleware = async () => {
          * @param Account_ID @type number
          */
         const client = new Client('your@email.com', 'password', 'appName', 'organization-name', 'https://app.activecollab.com', 123456)
-        await client.issueToken() <-- **ISSUE TOKEN SO YOU CAN MAKE REQUESTS**
+        await client.issueToken()
         const data = await client._post('projects/65/tasks', {
             "name": "This is a task name",
             "assignee_id": 48
@@ -80,3 +81,4 @@ const middleware = async () => {
         console.error(error)
     }
 ```
+#### IF YOU HAVE ANY QUESTION OR IMPORVEMENT, PLEASE SUBMIT PULL REQUEST
