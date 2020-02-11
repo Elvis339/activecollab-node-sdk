@@ -12,8 +12,8 @@ Get help: https://stackoverflow.com/questions/tagged/activecollab
 | npm run dev   | Run compiled app
 
 ### How it works?
-Code is written in asynchronous manner. Which means it has to be called inside of a async function.
-**issueToken method has to be called on initialization of the client, so you can make requests**  
+Code is written in asynchronous manner. Which means it has to be called inside of a async function.<br/>
+**issueToken method has to be called on initialization of the client, so you can make requests**<br/>
 **Before every request (_get, _post, _put, _delete) await has to be called.**
 
 ### Connect Active Collab Cloud Accounts
