@@ -19,17 +19,51 @@ export abstract class Authentication {
         this.URL = Url
     }
 
-    protected getToken(): string { return this.X_Angie_AuthApi }
-    protected setToken(newToken: string): string { return this.X_Angie_AuthApi = newToken }
-    protected setIntent(newIntent: string): string { return this.intent = newIntent }
-    protected getEmail(): string { return this.email }
-    protected getPassword(): string { return this.password }
-    public getURL(): string { return this.URL }
-    public setURL(newUrl: string): string { return this.URL = newUrl }
-    public getClientName(): string { return this.client_name }
-    public getClientVendor(): string { return this.client_vendor}
+    protected getToken(): string {
+        return this.X_Angie_AuthApi
+    }
 
-    protected async fetchIntent(): Promise<any>{
+    protected setToken(newToken: string): string {
+        return this.X_Angie_AuthApi = newToken
+    }
+
+
+    protected setIntent(newIntent: string): string {
+        return this.intent = newIntent
+    }
+
+    protected getEmail(): string {
+        return this.email
+    }
+
+    protected getPassword(): string {
+        return this.password
+    }
+
+    protected tokenURL(account_id: any): string {
+        if (typeof account_id === 'undefined') {
+            return `${this.getURL()}/api/v1/issue-token`
+        }
+        return `${this.getURL()}/${account_id}/api/v1/issue-token-intent`
+    }
+
+    public getURL(): string {
+        return this.URL
+    }
+
+    public setURL(newUrl: string): string {
+        return this.URL = newUrl
+    }
+
+    public getClientName(): string {
+        return this.client_name
+    }
+
+    public getClientVendor(): string {
+        return this.client_vendor
+    }
+
+    protected async fetchIntent(): Promise<any> {
         try {
             const res = await axios.post(`https://activecollab.com/api/v1/external/login`, {
                 email: this.getEmail(),
