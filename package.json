@@ -4,7 +4,6 @@
   "description": "ActiveCollab node api sdk. ",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --ext .ts,.tsx",
     "test": "jest",
     "tsc:w": "tsc -w --outDir build",
     "build": "tsc --outDir build",
