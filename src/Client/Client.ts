@@ -11,8 +11,26 @@ export class Client extends Authentication {
         this.account_id = Account_ID
     }
 
+    /**
+     * 
+     * @param component String
+     * @description Builds API endpoint
+     * @returns String
+     */
+    private apiURL(component: string): string {
+        if (typeof this.account_id === 'undefined') {
+            return `${this.getURL()}/api/v1/${component}`
+        }
+        return `${this.getURL()}/${this.account_id}/api/v1/${component}/`
+    }
+
+    /**
+     * @description Issues token based on the account_id
+     * @returns String X-Angie-AuthApi Token
+     */
     async issueToken(): Promise<any> {
         try {
+            // Self-Hosted
             if (typeof this.account_id === 'undefined') {
                 const res = await axios.post(this.tokenURL(this.account_id), {
                     username: this.getEmail(),
@@ -23,6 +41,7 @@ export class Client extends Authentication {
                 if (res.data.is_ok) return this.setToken(res.data.token)
                 return this.getToken()
             } else {
+                // Cloud
                 let intent = await this.fetchIntent()
                 const res = await axios.post(this.tokenURL(this.account_id), {
                     intent,
@@ -37,13 +56,12 @@ export class Client extends Authentication {
         }
     }
 
-    private apiURL(component: string): string {
-        if (typeof this.account_id === 'undefined') {
-            return `${this.getURL()}/api/v1/${component}`
-        }
-        return `${this.getURL()}/${this.account_id}/api/v1/${component}/`
-    }
-
+    /**
+     * 
+     * @param component String
+     * @returns JSON
+     * @description Auth Get Request
+     */
     public async _get(component: string): Promise<any> {
         try {
             const res = await axios.get(this.apiURL(component), {
@@ -57,6 +75,12 @@ export class Client extends Authentication {
         }
     }
 
+    /**
+     * 
+     * @param component String
+     * @returns JSON
+     * @description Auth Post Request
+     */
     public async _post(component: string, data: any): Promise<any> {
         try {
             const res = await axios.post(this.apiURL(component), data, {
@@ -70,6 +94,12 @@ export class Client extends Authentication {
         }
     }
 
+    /**
+     * 
+     * @param component String
+     * @returns JSON
+     * @description Auth Put Request
+     */
     public async _put(component: string, data: any): Promise<any> {
         try {
             const res = await axios.put(this.apiURL(component), data, {
@@ -83,6 +113,12 @@ export class Client extends Authentication {
         }
     }
 
+    /**
+     * 
+     * @param component String
+     * @returns JSON
+     * @description Auth Delete Request
+     */
     public async _delete(component: string): Promise<any> {
         try {
             const res = await axios.delete(this.apiURL(component), {
