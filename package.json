@@ -2,6 +2,14 @@
   "name": "activecollab_node_sdk",
   "version": "1.0.3",
   "description": "ActiveCollab node api sdk. ",
+  "homepage": "https://github.com/Elvis339/activecollab-node-sdk",
+  "bugs": {
+    "url": "https://github.com/Elvis339/activecollab-node-sdk/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Elvis339/activecollab-node-sdk.git"
+  },
   "main": "build/Client/Client.js",
   "scripts": {
     "test": "jest",

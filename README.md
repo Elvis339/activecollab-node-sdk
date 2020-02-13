@@ -2,7 +2,80 @@
 Official API documentation: https://developers.activecollab.com/api-documentation/  
 Get help: https://stackoverflow.com/questions/tagged/activecollab
 
-### Installation
+### How it works?
+Code is written in asynchronous manner. Which means it has to be called inside of a async function.<br/>
+**issueToken method has to be called on initialization of the client, so you can make requests**<br/>
+**Before every request (_get, _post, _put, _delete) await has to be called.**
+
+[Use it with Node](#Use-it-with-Node)
+[Use it with TypeScript](#Use-it-with-TypeScript)
+[NPM Commands](#NPM-Commands)
+[Connect Cloud Account](#Connect-Active-Collab-Cloud-Accounts)
+[Connect Self-Hosted Account](#Connecting-to-Self-Hosted-Active-Collab-Accounts)
+[Create a task](#To-create-a-task-,-simply-send-a-POST-request:)
+
+## Use it with Node
+1. Install module: ```npm i activecollab_node_sdk```
+2. Import Client from ```activecollab_node_sdk```
+
+```
+const { Client } = require('activecollab_node_sdk')
+
+const middleware = async () => {
+    try {
+        /**
+         * @param Email @type String
+         * @param Password @type String
+         * @param Client_Name @type String
+         * @param Client_Vendotr @type String
+         * @param URL @type String
+         * @param Account_ID @type number
+         */
+        const client = new Client('your@email.com', 'password', 'appName', 'organization-name', 'https://app.activecollab.com', 123456)
+        await client.issueToken()
+        const data = await client._get('projects/ID-OF-PROJECT')
+        console.log(data)
+    } catch (error) {
+        console.error(error)
+    }
+}
+middleware();
+```
+
+## Use it with TypeScript
+To use it with TypeScript, dont use npm to install it.  
+It's better to use it as a service.  
+1. Clone this repository to your project  
+
+```
+import { Client } from 'your-place/Client';
+
+/**
+ * Example
+ * Using it for TS project -> Middleware or Services
+ */
+const middleware = async () => {
+    try {
+        /**
+         * @param Email @type String
+         * @param Password @type String
+         * @param Client_Name @type String
+         * @param Client_Vendotr @type String
+         * @param URL @type String
+         * @param Account_ID @type number
+         */
+        const client = new Client('your@email.com', 'password', 'appName', 'organization-name', 'https://app.activecollab.com', 123456)
+        await client.issueToken()
+        const data = await client._get('projects/ID-OF-PROJECT')
+        console.log(data)
+    } catch (error) {
+        console.error(error)
+    }
+}
+middleware();
+```
+
+### NPM Commands
 
 | Command      | Description |
 | ----------- | ----------- |
@@ -11,10 +84,6 @@ Get help: https://stackoverflow.com/questions/tagged/activecollab
 | npm run tsc:w   | Run TS watch
 | npm run dev   | Run compiled app
 
-### How it works?
-Code is written in asynchronous manner. Which means it has to be called inside of a async function.<br/>
-**issueToken method has to be called on initialization of the client, so you can make requests**<br/>
-**Before every request (_get, _post, _put, _delete) await has to be called.**
 
 ### Connect Active Collab Cloud Accounts
 ```
