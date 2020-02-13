@@ -4,7 +4,7 @@ import { Client } from './Client/Client';
  * Example
  * Using it for TS project -> Middleware or Services
  */
-const middleware = () => {
+const middleware = async () => {
     try {
         // Init Cloud
         let client = new Client('email', 'password', 'client-name', 'client-vendor', 'https://app.activecollab.com', 123456)

@@ -7,12 +7,12 @@ Code is written in asynchronous manner. Which means it has to be called inside o
 **issueToken method has to be called on initialization of the client, so you can make requests**<br/>
 **Before every request (_get, _post, _put, _delete) await has to be called.**
 
-[Use it with Node](#Use-it-with-Node)
-[Use it with TypeScript](#Use-it-with-TypeScript)
-[NPM Commands](#NPM-Commands)
-[Connect Cloud Account](#Connect-Active-Collab-Cloud-Accounts)
-[Connect Self-Hosted Account](#Connecting-to-Self-Hosted-Active-Collab-Accounts)
-[Create a task](#To-create-a-task-,-simply-send-a-POST-request:)
+### Quick Links
+1. [Use it with Node](#Use-it-with-Node)<br/>
+2. [Use it with TypeScript](#Use-it-with-TypeScript)<br/>
+3. [NPM Commands](#NPM-Commands)<br/>
+4. [Connect Cloud Account](#Connect-Active-Collab-Cloud-Accounts)<br/>
+5. [Connect Self-Hosted Account](#Connecting-to-Self-Hosted-Active-Collab-Accounts)<br/>
 
 ## Use it with Node
 1. Install module: ```npm i activecollab_node_sdk```
