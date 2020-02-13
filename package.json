@@ -1,6 +1,6 @@
 {
   "name": "activecollab_node_sdk",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "ActiveCollab node api sdk. ",
   "main": "build/Client/Client.js",
   "scripts": {
