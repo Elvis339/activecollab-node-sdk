@@ -2,7 +2,7 @@
   "name": "activecollab_node_sdk",
   "version": "1.0.1",
   "description": "ActiveCollab node api sdk. ",
-  "main": "build/index.js",
+  "main": "build/Client/Client.js",
   "scripts": {
     "test": "jest",
     "tsc:w": "tsc -w --outDir build",
@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^25.1.2",
-    "@types/node": "^13.7.0",
+    "@types/node": "^13.7.1",
     "jest": "^25.1.0",
     "ts-jest": "^25.2.0",
     "typescript": "^3.7.5"

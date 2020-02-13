@@ -1,3 +1,5 @@
 import { Client } from './Client/Client';
 
-module.exports = Client
+module.exports = {
+    Slave: Client
+}
