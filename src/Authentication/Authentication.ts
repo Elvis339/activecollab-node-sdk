@@ -1,79 +1,35 @@
-import axios from 'axios';
+import { API } from "../constants";
 
 export abstract class Authentication {
-    private email: string;
+    public url: string;
+    protected client_name: string;
+    protected client_vendor: string;
+    protected email: string;
+
     private password: string;
-    private intent: string;
-    private X_Angie_AuthApi: string;
-    private client_name: string;
-    private client_vendor: string;
-    protected URL: string;
+    private X_ANGIE_AUTH_API: string = "";
 
-    constructor(Email: string, Password: string, Client_Name: string, Client_Vendor: string, Url = 'https://app.activecollab.com') {
-        this.email = Email
-        this.password = Password
-        this.client_name = Client_Name
-        this.client_vendor = Client_Vendor
-        this.intent = ''
-        this.X_Angie_AuthApi = ''
-        this.URL = Url
+    constructor(email: string, password: string, client_name: string, client_vendor: string, url: string = API.BASE_URL) {
+        this.email = email;
+        this.password = password;
+        this.client_name = client_name;
+        this.client_vendor = client_vendor;
+        this.url = url;
     }
 
-    protected getToken(): string {
-        return this.X_Angie_AuthApi
+    protected getEmail = (): string => this.email;
+
+    protected getPassword = (): string => this.password;
+
+    protected getToken = (): string => this.X_ANGIE_AUTH_API;
+
+    public getUrl = (): string => this.url;
+
+    public getClientName = (): string => this.client_name;
+
+    public getClientVendor = (): string => this.client_vendor;
+
+    protected setToken(newX_ANGIE_AUTH_API: string): string {
+        return this.X_ANGIE_AUTH_API = newX_ANGIE_AUTH_API;
     }
-
-    protected setToken(newToken: string): string {
-        return this.X_Angie_AuthApi = newToken
-    }
-
-
-    protected setIntent(newIntent: string): string {
-        return this.intent = newIntent
-    }
-
-    protected getEmail(): string {
-        return this.email
-    }
-
-    protected getPassword(): string {
-        return this.password
-    }
-
-    protected tokenURL(account_id: any): string {
-        if (typeof account_id === 'undefined') {
-            return `${this.getURL()}/api/v1/issue-token`
-        }
-        return `${this.getURL()}/${account_id}/api/v1/issue-token-intent`
-    }
-
-    public getURL(): string {
-        return this.URL
-    }
-
-    public setURL(newUrl: string): string {
-        return this.URL = newUrl
-    }
-
-    public getClientName(): string {
-        return this.client_name
-    }
-
-    public getClientVendor(): string {
-        return this.client_vendor
-    }
-
-    protected async fetchIntent(): Promise<any> {
-        try {
-            const res = await axios.post(`https://activecollab.com/api/v1/external/login`, {
-                email: this.getEmail(),
-                password: this.getPassword()
-            })
-            if (res.data.is_ok === 1) return this.setIntent(res.data.user.intent)
-        } catch (error) {
-            console.error(error.response)
-        }
-    }
-
-    abstract async issueToken(account_id?: number): Promise<any>;
 }
