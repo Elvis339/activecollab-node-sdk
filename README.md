@@ -14,11 +14,13 @@ Which means it has to be called inside of a async function.<br/>
 3. [NPM Commands](#NPM-Commands)<br/>
 
 ## Use it with Node
-1. Install module: ```npm i activecollab_node_sdk```
-2. Import Client from ```activecollab_node_sdk```
+To use it with Node, dont use `npm` to install it.  
+It's better to use it as a **service**.  
+1. Clone this repository to your project
+2. Run `npm run build` and place the build directory in your project.  
 
 ```javascript
-const { Client } = require('activecollab_node_sdk')
+const { Client } = require('../path-to-build/Client/Client.js')
 
 const middleware = async () => {
     try {
@@ -41,12 +43,11 @@ middleware();
 ```
 
 ## Use it with TypeScript
-To use it with TypeScript, dont use npm to install it.  
-It's better to use it as a service.  
-1. Clone this repository to your project  
+1. Install module: ```npm i activecollab_node_sdk```
+2. Import Client from ```activecollab_node_sdk```
 
 ```javascript
-import { Client } from 'your-place/Client';
+import { Client } from 'activecollab_node_sdk';
 ```
 The rest is same as the above, only the import changes if you use TS.
 
