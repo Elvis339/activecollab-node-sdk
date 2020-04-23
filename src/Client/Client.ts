@@ -1,135 +1,108 @@
-import axios from 'axios'
-import { Authentication } from '../Authentication/Authentication'
+import axios, {AxiosPromise} from 'axios'
+import { Authentication } from "../Authentication/Authentication"
+import { API, API_VERSION } from "../constants";
+import { IClient } from "../constants/types";
 
-export class Client extends Authentication {
+export class Client extends Authentication implements IClient  {
     private account_id?: number;
-    private token: string = ''
 
-    constructor(Email: string, Password: string, Client_Name: string, Client_Vendor: string, URL = 'https://app.activecollab.com', Account_ID?: number) {
-        super(Email, Password, Client_Name, Client_Vendor)
-        super.setURL(URL)
-        this.account_id = Account_ID
+    constructor(email: string, password: string, client_name: string, client_vendor: string, account_id?: number, url?: string) {
+        super(email, password, client_name, client_vendor, url);
+        this.account_id = account_id;
+    }
+
+    private isSelfHosted() :boolean {
+        if (this.getUrl() === API.BASE_URL) {
+            return false;
+        }
+        return true;
     }
 
     /**
-     * 
-     * @param component String
      * @description Builds API endpoint
      * @returns String
      */
-    private apiURL(component: string): string {
-        if (typeof this.account_id === 'undefined') {
-            return `${this.getURL()}/api/v1/${component}`
+    protected endpoint(component?: string): string {
+        const { TOKEN, BASE_URL } = API;
+
+        if (this.isSelfHosted()) {
+            return component ? `${this.getUrl()}/${API_VERSION}/${component}` : `${this.getUrl()}${TOKEN.ISSUE_TOKEN}`;
         }
-        return `${this.getURL()}/${this.account_id}/api/v1/${component}/`
+        return component ? `${BASE_URL}/${this.account_id}${API_VERSION}/${component}` : `${BASE_URL}/${this.account_id}${TOKEN.ISSUE_TOKEN_INTENT}`;
+    }
+
+    protected async fetchIntent(): Promise<string | undefined> {
+        const res = await axios.post(API.EXTERNAL_LOGIN_URL, {
+            email: this.getEmail(),
+            password: this.getPassword()
+        })
+        if (res.data.is_ok === 1) {
+            return res.data.user.intent;
+        } else {
+            throw new Error('Could not fetch intent...');
+        }
     }
 
     /**
      * @description Issues token based on the account_id
      * @returns String X-Angie-AuthApi Token
      */
-    async issueToken(): Promise<any> {
+    public async issueToken(): Promise<void> {
         try {
-            // Self-Hosted
-            if (typeof this.account_id === 'undefined') {
-                const res = await axios.post(this.tokenURL(this.account_id), {
+            let res = null;
+            // Self Hosted
+            if (this.isSelfHosted()) {
+                res = await axios.post(this.endpoint(), {
                     username: this.getEmail(),
                     password: this.getPassword(),
                     client_name: this.getClientName(),
                     client_vendor: this.getClientVendor()
-                })
-                if (res.data.is_ok) return this.setToken(res.data.token)
-                return this.getToken()
+                });
+                res.data.is_ok ? this.setToken(res.data.token) : new Error();
             } else {
-                // Cloud
-                let intent = await this.fetchIntent()
-                const res = await axios.post(this.tokenURL(this.account_id), {
-                    intent,
+                const intent = await this.fetchIntent();
+                res = await axios.post(this.endpoint(), {
+                    intent: intent,
                     client_name: this.getClientName(),
-                    client_vendor: this.getClientVendor()
-                })
-                if (res.data.is_ok) return this.setToken(res.data.token)
-                return this.getToken()
+                    client_vendor: this.getClientVendor(),
+                });
+                res.data.is_ok ? this.setToken(res.data.token) : new Error();
             }
-        } catch (error) {
-            console.error(error.response)
+        } catch (e) {
+            console.error(e.response);
         }
     }
 
-    /**
-     * 
-     * @param component String
-     * @returns JSON
-     * @description Auth Get Request
-     */
-    public async _get(component: string): Promise<any> {
-        try {
-            const res = await axios.get(this.apiURL(component), {
-                headers: {
-                    'X-Angie-AuthApiToken': this.getToken()
-                }
-            })
-            return res.data
-        } catch (error) {
-            console.error(error.response)
-        }
+    public async get(path: string): Promise<object> {
+        return await axios.get(this.endpoint(path), {
+            headers: {
+                'X-Angie-AuthApiToken': this.getToken(),
+            },
+        });
     }
 
-    /**
-     * 
-     * @param component String
-     * @returns JSON
-     * @description Auth Post Request
-     */
-    public async _post(component: string, data: any): Promise<any> {
-        try {
-            const res = await axios.post(this.apiURL(component), data, {
-                headers: {
-                    'X-Angie-AuthApiToken': this.getToken()
-                }
-            })
-            return res.data
-        } catch (error) {
-            console.error(error.response)
-        }
+    public async post(path: string): Promise<object> {
+        return await axios.post(this.endpoint(path), {
+            headers: {
+                'X-Angie-AuthApiToken': this.getToken(),
+            },
+        });
     }
 
-    /**
-     * 
-     * @param component String
-     * @returns JSON
-     * @description Auth Put Request
-     */
-    public async _put(component: string, data: any): Promise<any> {
-        try {
-            const res = await axios.put(this.apiURL(component), data, {
-                headers: {
-                    'X-Angie-AuthApiToken': this.getToken()
-                }
-            })
-            return res.data
-        } catch (error) {
-            console.error(error.response)
-        }
+    public async put(path: string): Promise<object> {
+        return await axios.put(this.endpoint(path), {
+            headers: {
+                'X-Angie-AuthApiToken': this.getToken(),
+            },
+        });
     }
 
-    /**
-     * 
-     * @param component String
-     * @returns JSON
-     * @description Auth Delete Request
-     */
-    public async _delete(component: string): Promise<any> {
-        try {
-            const res = await axios.delete(this.apiURL(component), {
-                headers: {
-                    'X-Angie-AuthApiToken': this.token
-                }
-            })
-            return res.data
-        } catch (error) {
-            console.error(error.response)
-        }
+    public async delete(path: string): Promise<object> {
+        return await axios.delete(this.endpoint(path), {
+            headers: {
+                'X-Angie-AuthApiToken': this.getToken(),
+            },
+        });
     }
 }
 
