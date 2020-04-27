@@ -1,6 +1,6 @@
 {
   "name": "activecollab_node_sdk",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "ActiveCollab node api sdk. ",
   "homepage": "https://github.com/Elvis339/activecollab-node-sdk",
   "bugs": {
