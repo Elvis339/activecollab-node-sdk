@@ -1,18 +1,25 @@
-import { Client } from './Client/Client';
+import { Client } from "./Client/Client";
 
 /**
  * Example
  * Using it for TS project -> Middleware or Services
  */
 const middleware = async () => {
-    try {
-        // Init Cloud
-        let client = new Client("your.email@email.com", "password", "client_name", "client_vendor", 123456);
-        await client.issueToken();
-        const projects = await client.get('projects');
-        console.log(projects);
-    } catch (error) {
-        console.log(error)
-    }
-}
-middleware()
+  try {
+    // Init Self-Hosted
+    let client = new Client(
+      "xxx@xxx.com",
+      "xxxx",
+      "xxx",
+      "xxx",
+      undefined,
+      "http://localhost:8080"
+    );
+    await client.issueToken();
+    const projects = await client.get("projects");
+    console.log(projects);
+  } catch (error) {
+    console.log(error);
+  }
+};
+middleware();
