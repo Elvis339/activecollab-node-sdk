@@ -16,8 +16,8 @@ Get help: https://stackoverflow.com/questions/tagged/activecollab
 #### Cloud
 
 ```typescript
-const cloud = new Cloud('AcmeINC', 'AcmeINC', '123', 'email@email.com', 'password');
-await cloud.issueTokenIntent();
+const c = new Cloud('AcmeINC', 'AcmeINC', '123', 'email@email.com', 'password');
+await c.issueTokenIntent();
 
 // Attach interceptors
 c.client.interceptors.request.use(onSuccess, onError);
@@ -30,11 +30,11 @@ console.log(taskLists.data);
 #### Self-hosted
 
 ```typescript
-const cloud = new SelfHosted('https://your-url-here.com', 'AcmeINC', 'AcmeINC', '123', 'email@email.com', 'password');
-await cloud.issueTokenIntent();
+const sh = new SelfHosted('https://your-url-here.com', 'AcmeINC', 'AcmeINC', '123', 'email@email.com', 'password');
+await sh.issueTokenIntent();
 
 // Attach interceptors
-c.client.interceptors.request.use(onSuccess, onError);
+sh.client.interceptors.request.use(onSuccess, onError);
 
 // task lists
 const taskLists = await cloud.get('/projects/1/task-lists');
