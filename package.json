@@ -1,6 +1,6 @@
 {
   "name": "activecollab_node_sdk",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "ActiveCollab node api sdk. ",
   "homepage": "https://github.com/Elvis339/activecollab-node-sdk",
   "bugs": {
@@ -10,20 +10,21 @@
     "type": "git",
     "url": "https://github.com/Elvis339/activecollab-node-sdk.git"
   },
-  "main": "src/Client/Client.ts",
+  "main": "build/index.js",
   "scripts": {
     "test": "jest",
     "tsc:w": "tsc -w --outDir build",
     "build": "tsc --outDir build",
-    "dev": "node build/index.js"
+    "dev": "node build/index.js",
+    "lint": "./node_modules/prettier/bin-prettier.js -w ."
   },
   "author": "Elvis Sabanovic",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^25.1.2",
     "@types/node": "^13.7.1",
-    "jest": "^25.1.0",
+    "prettier": "^2.8.7",
     "ts-jest": "^25.2.0",
+    "ts-node": "^10.9.1",
     "typescript": "^3.7.5"
   },
   "dependencies": {
