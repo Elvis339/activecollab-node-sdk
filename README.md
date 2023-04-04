@@ -30,7 +30,7 @@ console.log(taskLists.data);
 #### Self-hosted
 
 ```typescript
-const cloud = new Cloud('AcmeINC', 'AcmeINC', '123', 'email@email.com', 'password');
+const cloud = new SelfHosted('https://your-url-here.com', 'AcmeINC', 'AcmeINC', '123', 'email@email.com', 'password');
 await cloud.issueTokenIntent();
 
 // Attach interceptors
